@@ -5,8 +5,11 @@ import { Progress } from "@/components/ui/progress";
 import { Network, BrainCircuit, ExternalLink, Link2, Key, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import { mockQueryResult } from "@/mock/mockQueryResults";
 
 export default function QueryWorkspace() {
+  const result = mockQueryResult;
+
   return (
     <div className="flex h-[calc(100vh-8rem)] w-full gap-6 animate-in fade-in duration-500 overflow-hidden">
       {/* Left Panel */}
@@ -22,11 +25,11 @@ export default function QueryWorkspace() {
             Query Results
           </h2>
           <div className="flex items-center gap-2">
-             <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">Analysis Complete</Badge>
+            <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">Analysis Complete</Badge>
           </div>
         </div>
 
-        {/* Answer Card */}
+        {/* Synthesized Answer */}
         <Card className="bg-card border-card-border shadow-sm rounded-xl">
           <CardHeader className="pb-3 px-5 pt-5">
             <CardTitle className="text-sm font-semibold flex items-center text-foreground">
@@ -35,9 +38,7 @@ export default function QueryWorkspace() {
             </CardTitle>
           </CardHeader>
           <CardContent className="px-5 pb-5">
-            <p className="text-sm text-foreground/90 leading-relaxed">
-              Based on the extracted network graph, Project Alpha's architecture heavily relies on the Acme Corp acquisition, specifically their distributed consensus protocol. The Q3 revenue showed a <span className="font-bold text-green-500">12% increase</span> directly correlated to the successful integration of these systems in the New York data center under Jane Doe's supervision.
-            </p>
+            <p className="text-sm text-foreground/90 leading-relaxed">{result.synthesizedAnswer}</p>
           </CardContent>
         </Card>
 
@@ -51,12 +52,17 @@ export default function QueryWorkspace() {
               </CardTitle>
             </CardHeader>
             <CardContent className="px-5 pb-5">
-              <div className="flex flex-wrap gap-2">
-                <Badge variant="secondary" className="bg-blue-500/10 text-blue-500 border border-blue-500/20 hover:bg-blue-500/20">Project Alpha</Badge>
-                <Badge variant="secondary" className="bg-green-500/10 text-green-500 border border-green-500/20 hover:bg-green-500/20">Acme Corp</Badge>
-                <Badge variant="secondary" className="bg-purple-500/10 text-purple-500 border border-purple-500/20 hover:bg-purple-500/20">Jane Doe</Badge>
-                <Badge variant="secondary" className="bg-orange-500/10 text-orange-500 border border-orange-500/20 hover:bg-orange-500/20">New York</Badge>
-              </div>
+              {result.supportingEntities.length === 0 ? (
+                <p className="text-xs text-muted-foreground">No entities extracted.</p>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {result.supportingEntities.map((entity) => (
+                    <Badge key={entity.label} variant="secondary" className={entity.colorClass}>
+                      {entity.label}
+                    </Badge>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -65,12 +71,14 @@ export default function QueryWorkspace() {
             <CardHeader className="pb-3 px-5 pt-5">
               <CardTitle className="text-sm font-semibold flex items-center justify-between text-foreground w-full">
                 <span>Confidence Score</span>
-                <span className="text-lg font-bold text-primary">87%</span>
+                <span className="text-lg font-bold text-primary">{result.confidenceScore}%</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="px-5 pb-5">
-              <Progress value={87} className="h-2 bg-secondary" />
-              <p className="text-xs text-muted-foreground mt-2 text-right">Based on 14 cross-verified sources</p>
+              <Progress value={result.confidenceScore} className="h-2 bg-secondary" />
+              <p className="text-xs text-muted-foreground mt-2 text-right">
+                Based on {result.sourceCount} cross-verified sources
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -84,15 +92,20 @@ export default function QueryWorkspace() {
             </CardTitle>
           </CardHeader>
           <CardContent className="px-5 pb-5">
-            <div className="bg-secondary/50 rounded-lg p-4 font-mono text-xs overflow-x-auto flex items-center whitespace-nowrap text-muted-foreground">
-              <span className="text-blue-500 font-semibold">(Jane Doe)</span>
-              <span className="mx-2 text-foreground/50">-[SUPERVISES]-&gt;</span>
-              <span className="text-orange-500 font-semibold">(NY Data Center)</span>
-              <span className="mx-2 text-foreground/50">&lt;-[HOSTS]-</span>
-              <span className="text-green-500 font-semibold">(Acme System)</span>
-              <span className="mx-2 text-foreground/50">-[INTEGRATES_WITH]-&gt;</span>
-              <span className="text-primary font-semibold">(Project Alpha)</span>
-            </div>
+            {result.graphPath.length === 0 ? (
+              <p className="text-xs text-muted-foreground">No graph path available.</p>
+            ) : (
+              <div className="bg-secondary/50 rounded-lg p-4 font-mono text-xs overflow-x-auto flex items-center whitespace-nowrap text-muted-foreground gap-0">
+                {result.graphPath.map((step, idx) => (
+                  <span key={idx} className="flex items-center">
+                    <span className={`font-semibold ${step.nodeColorClass}`}>({step.nodeLabel})</span>
+                    {step.edgeLabel && (
+                      <span className="mx-2 text-foreground/50">{step.edgeLabel}</span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
 

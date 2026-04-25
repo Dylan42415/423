@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Play } from "lucide-react";
+import { defaultCypherQuery } from "@/mock/mockQueryResults";
 
 export const CypherEditor = () => {
-  const [query, setQuery] = useState('MATCH (c:Company)-[r:ACQUIRED]->(t:Target)\nWHERE r.date > "2023-01-01"\nRETURN c.name, r.value, t.name\nORDER BY r.value DESC\nLIMIT 10');
+  const [query, setQuery] = useState(defaultCypherQuery);
 
   return (
     <div className="flex flex-col h-full rounded-xl overflow-hidden border border-border bg-[#0d1117] font-mono text-sm shadow-inner" data-testid="cypher-editor">
@@ -25,7 +26,6 @@ export const CypherEditor = () => {
           spellCheck={false}
           data-testid="textarea-cypher-input"
         />
-        {/* Fake syntax highlighting overlay could go here, but textarea is sufficient for mock */}
       </div>
     </div>
   );

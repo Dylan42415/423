@@ -122,8 +122,28 @@ export const graphStats: GraphStats = {
   totalFiles: '1,432',
   activeJobs: '24',
   entityCount: '845,902',
-  relationshipCount: '2.4M'
+  relationshipCount: '2.4M',
+  totalFilesChange: '+12',
+  totalFilesChangeType: 'up' as const,
+  activeJobsChange: '-3',
+  activeJobsChangeType: 'down' as const,
+  entityCountChange: '+8.4k',
+  entityCountChangeType: 'up' as const,
+  relationshipCountChange: '+24k',
+  relationshipCountChangeType: 'up' as const,
 };
+
+export interface DashboardReport {
+  id: string;
+  title: string;
+  subtitle: string;
+}
+
+export const dashboardReports: DashboardReport[] = [
+  { id: 'r1', title: 'Q1 Entity Mapping',  subtitle: 'Generated from Financial Reports dataset' },
+  { id: 'r2', title: 'Q2 Entity Mapping',  subtitle: 'Generated from Customer Feedback dataset' },
+  { id: 'r3', title: 'Q3 Entity Mapping',  subtitle: 'Generated from Engineering Specs dataset' },
+];
 
 export const insightMetrics: InsightMetric[] = [
   { title: 'Total Entities Extracted', value: '845,902', trend: '+12%', trendDirection: 'up' },

@@ -3,9 +3,14 @@ import { Button } from "@/components/ui/button";
 import { ZoomIn, ZoomOut, Maximize, Filter, Search as SearchIcon, Info } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { graphNodes, graphEdges, defaultSelectedNode, graphLegend } from "@/mock/mockGraphData";
+
+const nodeById = Object.fromEntries(graphNodes.map((n) => [n.id, n]));
 
 export const GraphCanvasPlaceholder = () => {
-  const [selectedNode, setSelectedNode] = useState<string | null>("node-1");
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(defaultSelectedNode.id);
+
+  const selectedDetail = selectedNodeId === defaultSelectedNode.id ? defaultSelectedNode : null;
 
   return (
     <div className="relative w-full h-full bg-[#0a0f1a] rounded-xl border border-border overflow-hidden flex font-sans" data-testid="graph-canvas">
@@ -21,7 +26,9 @@ export const GraphCanvasPlaceholder = () => {
             <SearchIcon className="absolute left-2 top-2 h-3.5 w-3.5 text-muted-foreground" />
             <Input className="h-8 pl-7 text-xs bg-background" placeholder="Search entities..." />
           </div>
-          <Button variant="outline" className="h-8 w-full justify-start text-xs text-muted-foreground bg-background"><Filter className="h-3 w-3 mr-2" /> Filter Graph</Button>
+          <Button variant="outline" className="h-8 w-full justify-start text-xs text-muted-foreground bg-background">
+            <Filter className="h-3 w-3 mr-2" /> Filter Graph
+          </Button>
         </div>
       </div>
 
@@ -30,49 +37,40 @@ export const GraphCanvasPlaceholder = () => {
         <svg width="800" height="600" className="opacity-80" viewBox="0 0 800 600">
           {/* Edges */}
           <g stroke="currentColor" className="text-border" strokeWidth="1" strokeDasharray="4 4">
-            <path d="M 400 300 L 250 150" />
-            <path d="M 400 300 L 550 150" />
-            <path d="M 400 300 L 200 400" />
-            <path d="M 400 300 L 600 400" />
-            <path d="M 400 300 L 400 500" />
-            <path d="M 250 150 L 350 100" />
-            <path d="M 550 150 L 650 200" />
-            <path d="M 200 400 L 150 500" />
-            <path d="M 600 400 L 700 350" />
+            {graphEdges.map((edge, idx) => {
+              const from = nodeById[edge.from];
+              const to = nodeById[edge.to];
+              if (!from || !to) return null;
+              return <path key={idx} d={`M ${from.cx} ${from.cy} L ${to.cx} ${to.cy}`} />;
+            })}
           </g>
-
           {/* Nodes */}
           <g>
-            {/* Center Node */}
-            <circle cx="400" cy="300" r="30" className="fill-primary/20 stroke-primary animate-pulse" strokeWidth="2" />
-            <circle cx="400" cy="300" r="15" className="fill-primary" />
-            <text x="400" y="345" className="text-xs fill-foreground font-medium text-center" textAnchor="middle">Project Alpha</text>
-            
-            {/* Other Nodes */}
-            <circle cx="250" cy="150" r="20" className="fill-blue-500/20 stroke-blue-500" strokeWidth="2" />
-            <text x="250" y="185" className="text-[10px] fill-muted-foreground" textAnchor="middle">Acme Corp</text>
-            
-            <circle cx="550" cy="150" r="20" className="fill-green-500/20 stroke-green-500" strokeWidth="2" />
-            <text x="550" y="185" className="text-[10px] fill-muted-foreground" textAnchor="middle">Q3 Report</text>
-            
-            <circle cx="200" cy="400" r="20" className="fill-purple-500/20 stroke-purple-500" strokeWidth="2" />
-            <text x="200" y="435" className="text-[10px] fill-muted-foreground" textAnchor="middle">Jane Doe</text>
-            
-            <circle cx="600" cy="400" r="20" className="fill-orange-500/20 stroke-orange-500" strokeWidth="2" />
-            <text x="600" y="435" className="text-[10px] fill-muted-foreground" textAnchor="middle">New York</text>
-            
-            <circle cx="400" cy="500" r="20" className="fill-yellow-500/20 stroke-yellow-500" strokeWidth="2" />
-            <text x="400" y="535" className="text-[10px] fill-muted-foreground" textAnchor="middle">Merger Event</text>
-            
-            {/* Outer Nodes */}
-            <circle cx="350" cy="100" r="15" className="fill-blue-500/20 stroke-blue-500" strokeWidth="1" />
-            <circle cx="650" cy="200" r="15" className="fill-green-500/20 stroke-green-500" strokeWidth="1" />
-            <circle cx="150" cy="500" r="15" className="fill-purple-500/20 stroke-purple-500" strokeWidth="1" />
-            <circle cx="700" cy="350" r="15" className="fill-orange-500/20 stroke-orange-500" strokeWidth="1" />
+            {graphNodes.map((node) => {
+              const isCenter = node.id === 'node-center';
+              return (
+                <g key={node.id} onClick={() => setSelectedNodeId(node.id)} className="cursor-pointer">
+                  {isCenter && (
+                    <circle cx={node.cx} cy={node.cy} r={node.r} fill={`${node.color}33`} stroke={node.color} className="animate-pulse" strokeWidth="2" />
+                  )}
+                  <circle
+                    cx={node.cx} cy={node.cy}
+                    r={isCenter ? node.r / 2 : node.r}
+                    fill={isCenter ? node.color : `${node.color}33`}
+                    stroke={node.color}
+                    strokeWidth={isCenter ? 0 : 2}
+                  />
+                  <text x={node.cx} y={node.cy + node.r + 18} className={isCenter ? "text-xs fill-foreground font-medium" : "text-[10px] fill-muted-foreground"} textAnchor="middle" fontSize={isCenter ? 12 : 10}>
+                    {node.label}
+                  </text>
+                </g>
+              );
+            })}
           </g>
         </svg>
       </div>
 
+      {/* Neo4j banner */}
       <div className="absolute inset-x-0 bottom-12 flex justify-center pointer-events-none">
         <div className="bg-card/80 backdrop-blur border border-border px-4 py-2 rounded-full text-xs text-muted-foreground font-mono flex items-center shadow-lg">
           <Info className="h-3 w-3 mr-2 text-primary" />
@@ -82,19 +80,20 @@ export const GraphCanvasPlaceholder = () => {
 
       {/* Legend */}
       <div className="absolute bottom-4 left-4 bg-card/80 backdrop-blur border border-border rounded-lg p-2 flex gap-3 shadow-sm z-10">
-        <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-primary"></div><span className="text-[10px] text-muted-foreground">Core</span></div>
-        <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-blue-500"></div><span className="text-[10px] text-muted-foreground">Company</span></div>
-        <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-green-500"></div><span className="text-[10px] text-muted-foreground">Report</span></div>
-        <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-purple-500"></div><span className="text-[10px] text-muted-foreground">Person</span></div>
-        <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-orange-500"></div><span className="text-[10px] text-muted-foreground">Location</span></div>
+        {graphLegend.map((item) => (
+          <div key={item.label} className="flex items-center gap-1.5">
+            <div className={`w-2.5 h-2.5 rounded-full ${item.color}`} />
+            <span className="text-[10px] text-muted-foreground">{item.label}</span>
+          </div>
+        ))}
       </div>
 
       {/* Entity Detail Panel */}
-      {selectedNode && (
+      {selectedDetail && (
         <div className="absolute top-4 right-4 w-64 bg-card/90 backdrop-blur border border-border rounded-lg shadow-lg z-10 flex flex-col overflow-hidden animate-in slide-in-from-right-4 duration-300">
           <div className="p-3 border-b border-border bg-secondary/50 flex justify-between items-center">
             <h4 className="text-sm font-semibold text-foreground">Entity Details</h4>
-            <Button variant="ghost" size="icon" className="h-5 w-5 text-muted-foreground hover:text-foreground" onClick={() => setSelectedNode(null)}>
+            <Button variant="ghost" size="icon" className="h-5 w-5 text-muted-foreground hover:text-foreground" onClick={() => setSelectedNodeId(null)}>
               <span className="sr-only">Close</span>
               &times;
             </Button>
@@ -102,27 +101,21 @@ export const GraphCanvasPlaceholder = () => {
           <div className="p-3 flex flex-col gap-3">
             <div>
               <div className="text-xs text-muted-foreground mb-1">Name</div>
-              <div className="text-sm font-medium text-foreground">Project Alpha</div>
+              <div className="text-sm font-medium text-foreground">{selectedDetail.name}</div>
             </div>
             <div>
               <div className="text-xs text-muted-foreground mb-1">Type</div>
-              <Badge variant="outline" className="text-[10px] bg-primary/10 text-primary border-primary/20">Core Project</Badge>
+              <Badge variant="outline" className={`text-[10px] ${selectedDetail.typeBadgeClass}`}>{selectedDetail.type}</Badge>
             </div>
             <div>
               <div className="text-xs text-muted-foreground mb-1">Properties</div>
               <div className="bg-background rounded border border-border p-2 space-y-1">
-                <div className="flex justify-between text-[10px]">
-                  <span className="text-muted-foreground">status</span>
-                  <span className="text-foreground font-mono">"Active"</span>
-                </div>
-                <div className="flex justify-between text-[10px]">
-                  <span className="text-muted-foreground">budget</span>
-                  <span className="text-foreground font-mono">1.2M</span>
-                </div>
-                <div className="flex justify-between text-[10px]">
-                  <span className="text-muted-foreground">start_date</span>
-                  <span className="text-foreground font-mono">"2023-01-15"</span>
-                </div>
+                {selectedDetail.properties.map((prop) => (
+                  <div key={prop.key} className="flex justify-between text-[10px]">
+                    <span className="text-muted-foreground">{prop.key}</span>
+                    <span className="text-foreground font-mono">{prop.value}</span>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="pt-2 border-t border-border">

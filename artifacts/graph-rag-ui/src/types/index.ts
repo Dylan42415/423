@@ -83,6 +83,14 @@ export interface GraphStats {
   activeJobs: string;
   entityCount: string;
   relationshipCount: string;
+  totalFilesChange: string;
+  totalFilesChangeType: 'up' | 'down' | 'neutral';
+  activeJobsChange: string;
+  activeJobsChangeType: 'up' | 'down' | 'neutral';
+  entityCountChange: string;
+  entityCountChangeType: 'up' | 'down' | 'neutral';
+  relationshipCountChange: string;
+  relationshipCountChangeType: 'up' | 'down' | 'neutral';
 }
 
 export interface InsightMetric {
