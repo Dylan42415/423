@@ -1,6 +1,7 @@
 import { Search, Bell, Settings, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "wouter";
 
 export default function TopNavbar() {
   return (
@@ -21,9 +22,9 @@ export default function TopNavbar() {
           <Bell className="h-5 w-5" />
           <Badge className="absolute top-1 right-1 h-4 w-4 p-0 flex items-center justify-center bg-primary text-primary-foreground text-[10px] rounded-full border-2 border-background">3</Badge>
         </button>
-        <button className="p-2 text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-accent/10" data-testid="button-settings-top">
+        <Link href="/settings" className="p-2 text-muted-foreground hover:text-foreground transition-colors rounded-full hover:bg-accent/10 flex items-center justify-center" data-testid="button-settings-top">
           <Settings className="h-5 w-5" />
-        </button>
+        </Link>
         <button className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center text-secondary-foreground border border-border hover:border-primary transition-colors" data-testid="button-user-profile">
           <User className="h-4 w-4" />
         </button>

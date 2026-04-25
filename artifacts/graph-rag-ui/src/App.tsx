@@ -15,6 +15,7 @@ import DataCollections from "@/pages/DataCollections";
 import QueryWorkspace from "@/pages/QueryWorkspace";
 import GraphExplorer from "@/pages/GraphExplorer";
 import Insights from "@/pages/Insights";
+import SettingsPage from "@/pages/SettingsPage";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -30,9 +31,8 @@ function Router() {
         <Route path="/query" component={QueryWorkspace} />
         <Route path="/graph" component={GraphExplorer} />
         <Route path="/insights" component={Insights} />
-        {/* Reports & Settings just point to dashboard or not found for mock purposes */}
         <Route path="/reports" component={Dashboard} />
-        <Route path="/settings" component={Dashboard} />
+        <Route path="/settings" component={SettingsPage} />
         <Route component={NotFound} />
       </Switch>
     </AppLayout>

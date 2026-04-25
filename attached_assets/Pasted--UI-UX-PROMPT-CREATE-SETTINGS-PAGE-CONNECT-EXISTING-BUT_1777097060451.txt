@@ -1,0 +1,221 @@
+# UI/UX PROMPT — CREATE SETTINGS PAGE + CONNECT EXISTING BUTTON
+
+The app currently already has a **Settings button/icon** in the top navigation and/or sidebar.
+
+Create a **dedicated Settings page UI** and connect the existing button so clicking it routes to this page.
+
+IMPORTANT:
+This is **frontend UI/UX only**.
+Do NOT implement backend logic, authentication logic, API calls, or database persistence.
+
+Use mock toggle states only.
+
+---
+
+# ROUTING REQUIREMENT
+
+Connect the existing settings button to:
+
+```text
+/settings
+```
+
+Ensure both:
+
+* top navbar settings icon
+* sidebar settings menu item
+
+navigate to the same page.
+
+Use existing routing structure.
+
+---
+
+# SETTINGS PAGE LAYOUT
+
+Create a clean enterprise-style settings page.
+
+Use a **tabbed settings layout**.
+
+Tabs at top:
+
+* General
+* AI & Query
+* Data Pipeline
+* Graph Explorer
+* Notifications
+* Appearance
+
+Make tabs smooth and modern.
+
+Default tab = General
+
+---
+
+# 1) GENERAL TAB
+
+Create cards for:
+
+### Workspace Settings
+
+* workspace name input
+* project description textarea
+* timezone dropdown
+* language dropdown
+* default landing page dropdown
+
+Example placeholder values:
+
+* Environmental Intelligence Hub
+* Singapore (GMT+8)
+* English
+
+---
+
+# 2) AI & QUERY TAB
+
+This is one of the most important tabs.
+
+Include:
+
+### Query Preferences
+
+* default query mode toggle
+
+  * Natural Language
+  * Cypher
+
+* answer detail level dropdown
+
+  * concise
+  * detailed
+  * executive summary
+
+* confidence threshold slider
+
+* show explanation trace toggle
+
+* auto visualization suggestion toggle
+
+Use modern switches and sliders.
+
+Mock state only.
+
+---
+
+# 3) DATA PIPELINE TAB
+
+Create operational controls for future ingestion logic.
+
+Include:
+
+* max upload size input
+* supported file types display tags
+* auto categorization toggle
+* duplicate file detection toggle
+* auto graph merge toggle
+* failed upload retry toggle
+
+This should feel like a system control center.
+
+---
+
+# 4) GRAPH EXPLORER TAB
+
+This is for future Neo4j graph visualization settings.
+
+Include:
+
+* graph layout dropdown
+
+  * force directed
+  * hierarchical
+  * circular
+
+* show node labels toggle
+
+* show relationship labels toggle
+
+* edge animation toggle
+
+* default zoom slider
+
+* graph refresh interval dropdown
+
+Mock only.
+
+---
+
+# 5) NOTIFICATIONS TAB
+
+Include:
+
+* processing completed alerts
+* failed upload alerts
+* anomaly detection alerts
+* infographic ready alerts
+* email notifications toggle
+* in-app notifications toggle
+
+Use toggle switches.
+
+---
+
+# 6) APPEARANCE TAB
+
+Include:
+
+* light / dark mode toggle
+* compact layout toggle
+* sidebar collapsed by default toggle
+* accent color selector
+* animation toggle
+
+This should match current app theme.
+
+---
+
+# UI STYLE
+
+Match the existing design system exactly.
+
+Use:
+
+* React
+* Tailwind CSS
+* same card style
+* same spacing system
+* same typography
+* same accent colors
+* same rounded corners
+* same shadows
+
+The page must feel like it was originally part of the app.
+
+---
+
+# COMPONENT STRUCTURE
+
+Create reusable components:
+
+```text
+/components/settings
+   SettingsTabs.tsx
+   SettingsCard.tsx
+   ToggleSwitch.tsx
+   SliderControl.tsx
+   DropdownField.tsx
+/pages
+   SettingsPage.tsx
+```
+
+---
+
+# IMPORTANT
+
+This page must be easy for AntiGravity to later connect to real backend settings persistence.
+
+For now:
+use mock state / frontend state only.
+
+Do NOT add real save API logic.
