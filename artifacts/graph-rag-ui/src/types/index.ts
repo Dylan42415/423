@@ -27,6 +27,44 @@ export interface Collection {
   previewItems: string[];
 }
 
+export interface CollectionFile {
+  id: string;
+  name: string;
+  type: string;
+  size: string;
+  addedAt: string;
+}
+
+export interface CollectionEntity {
+  id: string;
+  name: string;
+  type: string;
+  mentions: number;
+}
+
+export interface CollectionRelatedQuery {
+  id: string;
+  query: string;
+  mode: 'Natural Language' | 'Cypher';
+  runAt: string;
+}
+
+export interface CollectionDetailed {
+  id: string;
+  title: string;
+  description: string;
+  tags: string[];
+  itemCount: number;
+  entityCount: number;
+  relationshipCount: number;
+  lastUpdated: string;
+  status: 'Active' | 'Processing' | 'Empty';
+  previewItems: string[];
+  files: CollectionFile[];
+  entities: CollectionEntity[];
+  relatedQueries: CollectionRelatedQuery[];
+}
+
 export interface QueryHistoryItem {
   id: string;
   query: string;

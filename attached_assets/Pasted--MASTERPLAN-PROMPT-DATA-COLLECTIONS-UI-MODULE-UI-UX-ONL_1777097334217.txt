@@ -1,0 +1,208 @@
+# MASTERPLAN PROMPT — DATA COLLECTIONS UI MODULE (UI/UX ONLY)
+
+Build ONLY the **frontend UI/UX** for the “Data Collections” system of a multimodal Graph-RAG intelligence platform.
+
+DO NOT implement backend logic, APIs, databases, authentication, or real data processing.
+
+This is a **pure UI shell module** that will later be connected to a backend system (Graph-RAG + Neo4j + multimodal pipeline).
+
+---
+
+# CORE PURPOSE OF THIS MODULE
+
+This page allows users to:
+
+* View all existing **data collections (categories)**
+* Create new collections dynamically
+* View collection contents (files, entities, insights placeholders)
+* Organize processed data into logical groups
+
+IMPORTANT:
+Collections are NOT folders or databases.
+They are **logical groupings over a knowledge graph system**.
+
+---
+
+# PAGE: DATA COLLECTIONS
+
+Create a dedicated page:
+
+```text id="collections_page"
+/data-collections
+```
+
+This page is the **main hub for managing categories/collections**.
+
+---
+
+# PAGE LAYOUT
+
+## 1) TOP BAR
+
+Include:
+
+* Page title: “Data Collections”
+* Search bar (search collections)
+* Filter dropdown (optional)
+* Primary action button: **+ Create Collection**
+
+---
+
+## 2) COLLECTION GRID (MAIN AREA)
+
+Display collections as cards in a responsive grid.
+
+Each collection card must show:
+
+* Collection name
+* Description (optional)
+* Number of items (files/entities)
+* Last updated timestamp
+* Status badge (Active / Processing / Empty)
+* Quick preview list (top 3 items)
+
+Example card:
+
+```
+Air Quality Studies
+24 items
+312 entities
+Updated 2h ago
+```
+
+---
+
+## 3) CREATE COLLECTION FLOW
+
+When user clicks **+ Create Collection**, open a modal or side panel.
+
+Fields:
+
+* Collection Name (required)
+* Description (optional)
+* Tags (optional)
+* Auto-assign data toggle (UI only mock)
+* Create button
+
+No backend logic required.
+
+---
+
+## 4) COLLECTION DETAIL VIEW (IMPORTANT)
+
+Clicking a collection opens a detail panel or page view.
+
+Must include:
+
+### Left section:
+
+* list of files in collection (mock)
+* entity list preview (mock)
+* related queries (mock)
+
+### Right section:
+
+* mini graph preview placeholder
+* summary stats cards:
+
+  * entities count
+  * relationships count
+  * files count
+
+This prepares future integration with Neo4j graph data.
+
+---
+
+# DATA BEHAVIOR (MOCK ONLY)
+
+Use mock data only:
+
+Store in:
+
+```
+/mock/mockCollections.ts
+```
+
+Collections should simulate:
+
+* different sizes
+* different types of data
+* different update times
+
+No real backend calls.
+
+---
+
+# KEY FUNCTIONAL BEHAVIOR (UI ONLY)
+
+The UI must support:
+
+* Create collection (frontend state only)
+* View collections
+* Select collection
+* Preview contents
+* Simulated assignment of data
+
+---
+
+# DESIGN STYLE
+
+Match existing app style:
+
+* React + Tailwind CSS
+* modern enterprise dashboard UI
+* soft shadows
+* rounded 2xl cards
+* clean spacing
+* subtle blue accent
+* grayscale base theme
+* responsive layout
+
+---
+
+# COMPONENT ARCHITECTURE
+
+Create reusable components:
+
+```
+/components/collections
+  CollectionCard.tsx
+  CreateCollectionModal.tsx
+  CollectionGrid.tsx
+  CollectionDetailPanel.tsx
+  CollectionStats.tsx
+```
+
+Keep everything modular and prop-driven.
+
+---
+
+# UX PRINCIPLE
+
+This page should feel like:
+
+* a **knowledge organization layer**
+* not a file manager
+* not a folder system
+
+It is a **graph-level abstraction layer** over structured intelligence data.
+
+---
+
+# FINAL RULE
+
+DO NOT implement backend logic, storage, or real graph computation.
+
+This is strictly a frontend UI module designed to later connect to:
+
+* Graph-RAG system
+* multimodal ingestion pipeline
+* Neo4j knowledge graph
+* AI-driven categorization engine
+
+Focus on:
+
+* clean UX
+* scalable structure
+* enterprise-grade layout
+* future backend compatibility
