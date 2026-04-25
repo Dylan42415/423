@@ -4,6 +4,22 @@
 
 pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
 
+## Products
+
+### Graph RAG Intelligence Platform (`artifacts/graph-rag-ui`)
+A full enterprise frontend UI shell for a Multimodal Graph-RAG Intelligence Platform. Pure frontend, no backend. All mock data lives in `src/mock/mockData.ts`. Designed for future integration with Neo4j, Graph-RAG, and multimodal ingestion backends.
+
+**Pages:**
+- `/` — Dashboard (metrics, recent uploads, recent queries)
+- `/upload` — File Upload (drag-and-drop, 8 upload type cards, upload queue)
+- `/pipeline` — Processing Pipeline (animated stage progress per file)
+- `/collections` — Data Collections (categorized collection cards)
+- `/query` — Query Workspace (natural language + Cypher editor, results panel)
+- `/graph` — Knowledge Graph Explorer (animated SVG graph, `GraphCanvasPlaceholder` component)
+- `/insights` — Insights & Infographics (charts, KPIs, anomaly alerts)
+
+**Component architecture:** `src/components/layout/`, `src/components/`, `src/pages/`, `src/mock/`, `src/types/`
+
 ## Stack
 
 - **Monorepo tool**: pnpm workspaces

@@ -1,0 +1,399 @@
+# MASTERPLAN PROMPT — UI/UX ONLY FOR MULTIMODAL GRAPH-RAG INTELLIGENCE APP
+
+Build ONLY the **frontend UI/UX** for a modern enterprise intelligence platform.
+
+DO NOT implement backend logic, APIs, databases, authentication, file processing, or graph database integration.
+
+This is strictly a **UI shell** that AntiGravity will later connect to the real backend.
+
+The UI must be fully modular, scalable, and easy for future backend integration.
+
+---
+
+# CORE PRODUCT WORKFLOW (VERY IMPORTANT)
+
+Design the app around this exact user workflow:
+
+```text
+Upload Files
+   ↓
+Processing Pipeline
+   ↓
+Structured Data Collections
+   ↓
+Query Workspace
+   ↓
+Knowledge Graph Explorer
+   ↓
+Insight & Infographic Generator
+   ↓
+Export / Report
+```
+
+The UI must visually guide users through this flow.
+
+This workflow is the most important design principle.
+
+---
+
+# DESIGN GOAL
+
+Create a clean enterprise dashboard that feels like:
+
+* intelligence platform
+* data operations center
+* graph analytics workspace
+* AI reasoning dashboard
+
+Style inspiration:
+
+* Palantir
+* Neo4j Bloom
+* Notion AI
+* modern SaaS admin dashboards
+
+DO NOT use NEA-specific branding or government styling yet.
+
+Keep it generic and professional.
+
+---
+
+# REQUIRED PAGES
+
+---
+
+## 1) DASHBOARD / HOME PAGE
+
+This is the landing page.
+
+Include:
+
+### Top Navigation Bar
+
+* workspace title
+* global search bar
+* notifications icon
+* settings icon
+* user profile icon
+
+### Left Sidebar (collapsible)
+
+* Dashboard
+* Upload & Sources
+* Processing Pipeline
+* Data Collections
+* Query Workspace
+* Graph Explorer
+* Insights
+* Reports
+* Settings
+
+Use icons + labels.
+
+Make sidebar collapsible.
+
+### Main Dashboard Widgets
+
+* total uploaded files
+* active processing jobs
+* graph entities count
+* relationships count
+* recent queries
+* recent generated infographics
+
+Use placeholder metric cards only.
+
+---
+
+## 2) FILE UPLOAD PAGE
+
+This page is extremely important.
+
+Users must be able to upload multiple different file types.
+
+Create a large drag-and-drop upload zone.
+
+Supported upload cards:
+
+* Documents
+* CSV / JSON / XML
+* Images
+* Video
+* Audio
+* Sensor Data
+* Geospatial Files
+* Existing Graph Files
+
+Each card must have:
+
+* icon
+* title
+* short description
+* upload button
+
+Below that show:
+
+### Recent Upload Queue
+
+Each uploaded file should be shown as a card with:
+
+* file name
+* type badge
+* upload timestamp
+* status badge
+
+Example statuses:
+
+* Uploaded
+* Processing
+* Completed
+* Failed
+
+MOCK DATA ONLY.
+
+---
+
+## 3) PROCESSING PIPELINE PAGE
+
+VERY IMPORTANT PAGE.
+
+Do NOT skip this.
+
+This page visually shows AI processing stages.
+
+Create a horizontal pipeline flow:
+
+```text
+Upload → Parse → Extract → Categorize → Graph Merge → Ready
+```
+
+Each uploaded file should have a progress pipeline card.
+
+Example:
+
+air_quality_report.pdf
+
+* Uploaded ✓
+* Text Parsed ✓
+* Entity Extraction ✓
+* Relationship Mapping ⏳
+* Graph Merge ⏳
+
+This page is critical for explainability.
+
+Use animated progress indicators.
+
+No backend logic.
+
+---
+
+## 4) DATA COLLECTIONS PAGE
+
+After processing, files should appear inside categorized collections.
+
+IMPORTANT:
+Do NOT hardcode fixed NEA categories.
+
+Instead create dynamic collection cards such as:
+
+* Documents
+* Sensor Streams
+* Media Assets
+* Geospatial Layers
+* Incident Reports
+* Archived Queries
+
+Each collection card should show:
+
+* title
+* item count
+* last updated
+* quick preview list
+
+Make this component reusable.
+
+---
+
+## 5) QUERY WORKSPACE PAGE
+
+This is the main intelligence workspace.
+
+Split the screen into 2 panels.
+
+### LEFT PANEL
+
+Chat / query workspace
+
+Include:
+
+* natural language input box
+* submit button
+* query history
+* saved prompts
+
+Below add:
+
+### Query Mode Toggle
+
+Two tabs:
+
+* Natural Language
+* Cypher Query
+
+Cypher editor should look like a code editor.
+
+Example placeholder:
+
+```cypher
+MATCH (n)-[r]->(m)
+RETURN n, r, m
+```
+
+---
+
+### RIGHT PANEL
+
+Results + explanation
+
+Create modular cards for:
+
+* Answer
+* Supporting Entities
+* Graph Path
+* Confidence Score
+* Suggested Visualization
+
+Mock only.
+
+---
+
+## 6) KNOWLEDGE GRAPH EXPLORER PAGE
+
+YES include a dedicated graph page.
+
+This should be a visual network workspace.
+
+Create a large graph canvas placeholder.
+
+Use animated mock nodes and edges.
+
+Add:
+
+* zoom controls
+* filter controls
+* search nodes
+* legend panel
+* entity detail side panel
+
+Important:
+this component must be easy for AntiGravity to replace with real graph rendering later.
+
+Name component clearly:
+
+GraphCanvasPlaceholder.tsx
+
+---
+
+## 7) INSIGHTS & INFOGRAPHIC PAGE
+
+This page generates executive-style visual insights.
+
+Include reusable widgets:
+
+* line chart placeholder
+* heatmap placeholder
+* cluster graph placeholder
+* KPI cards
+* trend cards
+* anomaly alerts
+* export infographic button
+
+Layout must feel presentation-ready.
+
+Very important for DMT showcase.
+
+---
+
+# COMPONENT ARCHITECTURE
+
+Use React component structure:
+
+```text
+/components
+   Sidebar.tsx
+   TopNavbar.tsx
+   UploadCard.tsx
+   PipelineCard.tsx
+   CollectionCard.tsx
+   QueryPanel.tsx
+   CypherEditor.tsx
+   GraphCanvasPlaceholder.tsx
+   InsightWidget.tsx
+   MetricCard.tsx
+/pages
+/layout
+/mock
+/types
+```
+
+Everything must be modular.
+
+Use props heavily.
+
+Example:
+
+```tsx
+<MetricCard title="" value="" change="" />
+```
+
+---
+
+# MOCK DATA RULE
+
+Store all mock data inside:
+
+```text
+/mock/mockData.ts
+```
+
+DO NOT inline fake data inside components.
+
+AntiGravity must later replace mock data easily.
+
+---
+
+# DESIGN STYLE
+
+Use:
+
+* React
+* Tailwind CSS
+* modern card UI
+* soft shadows
+* rounded 2xl corners
+* grayscale theme
+* subtle blue accent
+* responsive desktop-first layout
+* smooth transitions
+
+Keep it professional and enterprise-grade.
+
+---
+
+# FINAL RULE
+
+DO NOT implement backend logic.
+
+This is purely a frontend UI/UX shell optimized for future integration with:
+
+* Neo4j
+* Graph-RAG
+* multimodal ingestion
+* infographic engine
+* export system
+
+Focus on:
+clean workflow
+component scalability
+presentation-ready design
+future backend compatibility
