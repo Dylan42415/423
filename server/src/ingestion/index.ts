@@ -1,0 +1,1 @@
+export { ingest } from "./service";
