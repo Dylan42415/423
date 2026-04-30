@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "setup": "node -e \"const fs = require('fs'); if (!fs.existsSync('server/.env')) fs.copyFileSync('server/.env.example', 'server/.env'); console.log('✅ Created server/.env from example. Please configure your keys.');\"",
+    "setup": "node -e \"const fs = require('fs'); const copy = (src, dst) => { if (!fs.existsSync(dst)) { fs.copyFileSync(src, dst); console.log(`✅ Created ${dst}`); } }; copy('server/.env.example', 'server/.env'); copy('client/.env.example', 'client/.env'); console.log('🚀 Setup complete! Please configure your keys in server/.env');\"",
     "dev": "pnpm -r --parallel run dev",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "typecheck:libs": "tsc --build",
